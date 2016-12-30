@@ -7,7 +7,6 @@ import scipy as sp
 import scipy.linalg
 import numpy as np
 import cv2
-import time
 
 # ----- supporting functions for image rectification ---------
 # INPUTS:
