@@ -1,0 +1,15 @@
+
+# Floor tile image
+#python rectifyAffine.py images/floor.png
+#python rectifyMetric.py images/floor_arect.png
+#python rectify.py images/floor.png
+
+# Image 1
+#python rectifyAffine.py images/charlestown1.jpg
+#python rectifyMetric.py images/charlestown1.jpg
+#python rectify.py images/charlestown1.jpg
+
+# Image 2
+#python rectifyAffine.py images/charlestown2.jpg
+#python rectifyMetric.py images/charlestown2_arect.jpg
+#python rectify.py images/charlestown2.jpg
