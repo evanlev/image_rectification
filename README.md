@@ -1,5 +1,5 @@
 # image_rectification
-Interactive affine and metric image rectification in Python. Click coplanar parallel and perpendicular lines on any image to rectify it, displaying and saving the output. Three scripts are provided for this.
+Interactive affine and metric image rectification in Python. Click coplanar parallel and perpendicular lines on any image to rectify it, displaying and saving the output. Three scripts are provided.
 
 ![Screenshot](image_rectification.png)
 
