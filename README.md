@@ -12,5 +12,8 @@ Select two perpendicular lines in an image and do affine rectification via the v
 ## rectify.py
 Do affine followed by metric rectification. Images are translated and scaled once after both stages to keep the image contained just within the image matrix.
 
+## Requirements
+OpenCV Python, matplotlib, numpy, scipy
+
 ### References
 Hartley, Richard, and Andrew Zisserman. Multiple view geometry in computer vision. Cambridge university press, 2003.
