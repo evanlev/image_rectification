@@ -10,13 +10,13 @@ from utils import *
 nLinePairs = 2; # Select this may pairs of perpendicular lines
 # -----------------------------
 def usage(sname):
-    print sname + " <image>";
+    print(sname + " <image>");
 
 if len(sys.argv) != 2:
     usage(sys.argv[0]);
     exit(0);
 
-print("Two-stage (affine and metric) rectification using %d parallel line pairs" % nLinePairs);
+# print(f"Two-stage (affine and metric) rectification using  {d} parallel line pairs {nLinePairs}");
 
 # Read input files
 imgPath = sys.argv[1];
@@ -48,7 +48,7 @@ show()
 
 # Save output
 imgPathRect = fileparts[0] + "_rect" + fileparts[1];
-print("Saving output to %s..." % imgPathRect);
+# print(f"Saving output to {s}... {imgPathRect}");
 mplimg.imsave(imgPathRect,cropOuterRegion(imM));
 
 
