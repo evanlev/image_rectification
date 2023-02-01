@@ -13,7 +13,7 @@ nLinePairs = 2; # Select this may pairs of perpendicular lines
 # -----------------------------
 
 def usage(sname):
-    print sname + " <affine-rectified image> <# line pairs (>1)>";
+    print(sname + " <affine-rectified image> <# line pairs (>1)>");
 
 if len(sys.argv) != 2 and len(sys.argv) != 3:
     usage(sys.argv[0]);
@@ -24,7 +24,7 @@ if len(sys.argv) == 3:
     if nLinePairs < 2:
         usage(sys.argv[0]);
 
-print("Metric rectification using %d perpendicular line pairs" % nLinePairs);
+print(("Metric rectification using %d perpendicular line pairs" % nLinePairs));
     
 # Read input files
 imgPath = sys.argv[1];
@@ -47,7 +47,7 @@ show()
     
 # Save output
 imgPathRect = fileparts[0] + "_mrect" + fileparts[1];
-print("Saving output to %s..." % imgPathRect);
+print(("Saving output to %s..." % imgPathRect));
 mplimg.imsave(imgPathRect,cropOuterRegion(imRect));
 
 

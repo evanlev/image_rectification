@@ -18,9 +18,9 @@ def getHCorners(H, limits):
     Ny = float(limits[0])
     Nx = float(limits[1])
     # Apply H to corners of the image to determine bounds
-    Htr  = np.dot(H, np.array([0.0, Ny, 1.0]).flatten(1)) # Top left maps to here
-    Hbr  = np.dot(H, np.array([Nx,  Ny, 1.0]).flatten(1)) # Bottom right maps to here
-    Hbl  = np.dot(H, np.array([Nx, 0.0, 1.0]).flatten(1)) # Bottom left maps to here
+    Htr  = np.dot(H, np.array([0.0, Ny, 1.0]).flatten()) # Top left maps to here
+    Hbr  = np.dot(H, np.array([Nx,  Ny, 1.0]).flatten()) # Bottom right maps to here
+    Hbl  = np.dot(H, np.array([Nx, 0.0, 1.0]).flatten()) # Bottom left maps to here
     Hcor = [Htr,Hbr,Hbl]
     
     # Check if corners in the transformed image map to infinity finite
@@ -55,11 +55,11 @@ def scaleHToImage(H, limits, anisotropic = False): # TODO: test anisotropic
 
     # Scale
     if anisotropic:
-        print("Scaling by (%f,%f)\n" % (k[0], k[1]))
+        # print(f"Scaling by (%f,%f)\n" % (k[0], k[1])))
         HS = np.array([[1./k[0],0.0,0.0],[0.0,1./k[1],0.0],[0.0,0.0,1.0]])
     else:
         k = max(k)
-        print("Scaling by %f\n" % k)
+        # print(("Scaling by %f\n" % k))
         HS = np.array([[1.0/k,0.0,0.0],[0.0,1.0/k,0.0],[0.0,0.0,1.0]])
 
     return np.dot(HS, H)
@@ -79,7 +79,8 @@ def rotateHToLine(H, line):
 
     # Rotate so that this line is horizonal in the image 
     r1 = np.array([lineTr[1], -lineTr[0]]) # First row of R is perpendicular to linesTr[0]
-    r1 = r1 / np.linalg.norm(r1.flatten(1))
+    # print("-----------", r1.flatten())
+    r1 = r1 / np.linalg.norm(r1.flatten())
     theta = np.arctan2(-r1[1] , r1[0])
     if abs(theta) < pi/4:
         R = np.array([[r1[0],  r1[1]], [-r1[1], r1[0]]])
@@ -87,7 +88,7 @@ def rotateHToLine(H, line):
         R = np.identity(2)
         #R = np.array([[r1[1], -r1[0]], [ r1[0], r1[1]]])
     theta = np.arctan2(R[1,0], R[1,1])
-    print("Rotating by %.1f degrees" % (theta*180/pi))
+    # print(("Rotating by %.1f degrees" % (theta*180/pi)))
     HR = np.identity(3)
     HR[0:2,0:2] = R
 
@@ -140,8 +141,8 @@ def getLine():
     pts_h = [[x[0],x[1],1] for x in pts]
     line = np.cross(pts_h[0], pts_h[1]) # line is [p0 p1 1] x [q0 q1 1]
     # return points that were clicked on for plotting
-    x1=map(lambda x: x[0],pts) # map applies the function passed as 
-    y1=map(lambda x: x[1],pts) # first parameter to each element of pts
+    x1=[x[0] for x in pts] # map applies the function passed as 
+    y1=[x[1] for x in pts] # first parameter to each element of pts
     return x1,y1,line
 
 # INPUTS:
@@ -195,17 +196,17 @@ def cropOuterRegion(im):
     top  = 0
     right = im.shape[1]
     left  = 0
-    while left+1 < im.shape[1] and max(im[:,left+1].flatten(1)) == 0:
+    while left+1 < im.shape[1] and max(im[:,left+1].flatten()) == 0:
         left = left + 1
-    while right >= 1 and max(im[:,right-1].flatten(1)) == 0:
+    while right >= 1 and max(im[:,right-1].flatten()) == 0:
         right = right - 1
-    while bottom >= 1 and max(im[bottom-1,:].flatten(1)) == 0:
+    while bottom >= 1 and max(im[bottom-1,:].flatten()) == 0:
         bottom = bottom - 1
-    while top+1 < im.shape[0] and max(im[top+1,:].flatten(1)) == 0:
+    while top+1 < im.shape[0] and max(im[top+1,:].flatten()) == 0:
         top = top + 1
     if im.ndim == 3:
         imc = im[top:bottom,left:right,:]
-    elif ndim == 2:
+    elif im.ndim == 2:
         imc = im[top:bottom,left:right]
     else:
         raise Exception("TODO: reshape")
@@ -217,7 +218,7 @@ def cropOuterRegion(im):
 # OUTPUTS:
 #   xx,yy = plot(xx,yy) will plot the line cropped within the image region
 def getPlotBoundsLine(size, l):
-    l = l.flatten(1)
+    l = l.flatten()
     L = 0
     R = 1
     T = 2
@@ -333,7 +334,7 @@ def rectifyAffineF(im, nLinePairs, doRotationAfterH = True, doTranslationAfterH 
         # Plot vanishing line
         if plot_vline:
             if len(vPts) == 2 and vPtInImage[0] and vPtInImage[1]:
-                vLine = np.linalg.cross(vPts[0], vPts[1])
+                vLine = np.cross(vPts[0], vPts[1])
                 xx,yy = getPlotBoundsLine(limits, vLine)
                 plot(xx,yy,'y-')
                 #plot([vPts_n[0][0],vPts_n[1][0]], [vPts_n[0][1],vPts_n[1][1]], 'y-')
@@ -381,8 +382,8 @@ def rectifyAffineF(im, nLinePairs, doRotationAfterH = True, doTranslationAfterH 
         replotAffine(im,im.shape,lines,x,y,vPts)
 
     print("Vanishing points:")
-    print(vPts[0])
-    print(vPts[1])
+    print((vPts[0]))
+    print((vPts[1]))
     vLine = np.cross(vPts[0], vPts[1])
     print("Vanishing line:")
     print(vLine)
@@ -550,7 +551,7 @@ def rectifyMetricF(imA, nLinePairs, doRotationAfterH = True, doTranslationAfterH
     print(H)
     Hinv = np.linalg.inv(H)
     if False: # not the best way to set the scaling
-        Hinv = Hinv / max(Hinv[0:2,0:2].flatten(1))
+        Hinv = Hinv / max(Hinv[0:2,0:2].flatten())
         print("Hinv:")
         print(Hinv)
         Hinv[2,2] = 1
